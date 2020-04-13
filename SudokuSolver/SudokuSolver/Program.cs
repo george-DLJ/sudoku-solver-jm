@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SudokuSolver.Data;
+using SudokuSolver.Workers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,10 @@ namespace SudokuSolver
     {
         static void Main(string[] args)
         {
+            var sudokuBoard = SudokuFileReader.ReadFile(@"C:\Temp\SudokuSolverTestFile\SudokuEasy.txt");
+            SudokuBoard sudoku = new SudokuBoard(sudokuBoard);
+            Console.WriteLine(sudoku.ToString());
+            Console.ReadKey();
         }
     }
 }
