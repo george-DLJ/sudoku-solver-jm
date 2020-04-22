@@ -72,5 +72,21 @@ namespace SudokuSolver.Data
             }
             return sbuilder.ToString();
         }
+
+        /// <summary>
+        /// returns the block of a given cell element.
+        /// block are 
+        /// </summary>
+        /// <param name="rowIndex"></param>
+        /// <param name="colindex"></param>
+        /// <returns></returns>
+        public int[] GetBlock(int rowIndex, int colIndex)
+        {
+            int[] block Elements = new int[_workBoard.GetLength(0)];
+            for (int rowIndex = 0; rowIndex < _workBoard.GetLength(0); rowIndex++)
+            {
+                colElements[rowIndex] = _workBoard[rowIndex, colIndex];
+            }
+        }
     }
 }

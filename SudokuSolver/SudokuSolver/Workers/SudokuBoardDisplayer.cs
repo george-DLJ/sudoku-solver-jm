@@ -17,7 +17,7 @@ namespace SudokuSolver.Workers
                 Console.Write("|");
                 for (int col=0; col < sudokuBoard.GetLength(1); col++)
                 {
-                    Console.WriteLine($"{sudokuBoard[row, col]}|");
+                    Console.Write($"{sudokuBoard[row, col]}|");
                 }
                 Console.WriteLine();
             }
