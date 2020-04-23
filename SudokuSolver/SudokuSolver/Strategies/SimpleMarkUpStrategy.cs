@@ -74,9 +74,9 @@ namespace SudokuSolver.Strategies
                 }
                 for (int row = 0; row < 9; row++)
                 {
-                    if (IsValidSingle(sudokuBoard[givenCol, row]))
+                    if (IsValidSingle(sudokuBoard[row, givenCol]))
                     {
-                        possibilities[sudokuBoard[givenCol, row] - 1] = 0;
+                        possibilities[sudokuBoard[row, givenCol] - 1] = 0;
                     }
                 }
                 return Convert.ToInt32(String.Join(string.Empty, possibilities.Select(p => p).Where(p => p != 0)));
