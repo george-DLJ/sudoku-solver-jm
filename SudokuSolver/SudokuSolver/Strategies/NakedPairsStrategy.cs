@@ -46,7 +46,7 @@ namespace SudokuSolver.Strategies
         private void EliminateNakedPairFromOthersInCol(int[,] sudokuBoard, int givenRow, int givenCol)
         {
             if (!HasNakedPairInCol(sudokuBoard, givenRow, givenCol)) return;
-            for (int row = 0; row < sudokuBoard.GetLength(1); row++)
+            for (int row = 0; row < sudokuBoard.GetLength(0); row++)
             {
                 //if there are possibilities eliminate naked pair
                 if (sudokuBoard[row, givenCol] != sudokuBoard[givenRow, givenCol] && sudokuBoard[row, givenCol].ToString().Length > 1)
@@ -88,7 +88,7 @@ namespace SudokuSolver.Strategies
 
         private bool HasNakedPairInCol(int[,] sudokuBoard, int givenRow, int givenCol)
         {
-            for (int row = 0; row < sudokuBoard.GetLength(1); row++)
+            for (int row = 0; row < sudokuBoard.GetLength(0); row++)
             {
                 if (givenRow != row && IsNakedPair(sudokuBoard[row, givenCol], sudokuBoard[givenRow, givenCol]))
                 {

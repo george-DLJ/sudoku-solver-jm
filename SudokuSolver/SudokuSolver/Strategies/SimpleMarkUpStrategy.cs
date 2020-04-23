@@ -26,21 +26,29 @@ namespace SudokuSolver.Strategies
         /// <returns></returns>
         public int[,] Solve(int[,] sudokuBoard)
         {
-            for (int row = 0; row < sudokuBoard.GetLength(0); row++)
+
+            try
             {
-                for (int col = 0; col < sudokuBoard.GetLength(1); col++)
+                for (int row = 0; row < sudokuBoard.GetLength(0); row++)
                 {
-                    if (sudokuBoard[row, col]==0 ||sudokuBoard[row, col].ToString().Length > 1)
+                    for (int col = 0; col < sudokuBoard.GetLength(1); col++)
                     {
-                        int possibilitiesInRowAndCol = GetPossibilitiesInRowAndCol(sudokuBoard, row, col);
-                        int possibilitiesInBlock = GetPossibilitiesInBlock(sudokuBoard, row, col);
-                        sudokuBoard[row, col] = GetPossibilityIntersection(possibilitiesInRowAndCol, possibilitiesInBlock);
+                        if (sudokuBoard[row, col] == 0 || sudokuBoard[row, col].ToString().Length > 1)
+                        {
+                            int possibilitiesInRowAndCol = GetPossibilitiesInRowAndCol(sudokuBoard, row, col);
+                            int possibilitiesInBlock = GetPossibilitiesInBlock(sudokuBoard, row, col);
+                            sudokuBoard[row, col] = GetPossibilityIntersection(possibilitiesInRowAndCol, possibilitiesInBlock);
+                        }
                     }
+
                 }
 
+                return sudokuBoard;
             }
-
-            return sudokuBoard;
+            catch (Exception ex)
+            {
+                throw new Exception("Error xxxx():" + ex.Message);
+            }
         }
 
         /// <summary>
@@ -53,23 +61,31 @@ namespace SudokuSolver.Strategies
         /// <returns></returns>
         private int GetPossibilitiesInRowAndCol(int[,] sudokuBoard, int givenRow, int givenCol)
         {
-            // Avetis solution:
-            int[] possibilities = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            for(int col=0; col < 9; col++)
+            try
             {
-                if (IsValidSingle(sudokuBoard[givenRow, col]))
+                // Avetis solution:
+                int[] possibilities = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                for (int col = 0; col < 9; col++)
                 {
-                    possibilities[sudokuBoard[givenRow, col] - 1] = 0;
+                    if (IsValidSingle(sudokuBoard[givenRow, col]))
+                    {
+                        possibilities[sudokuBoard[givenRow, col] - 1] = 0;
+                    }
                 }
+                for (int row = 0; row < 9; row++)
+                {
+                    if (IsValidSingle(sudokuBoard[givenCol, row]))
+                    {
+                        possibilities[sudokuBoard[givenCol, row] - 1] = 0;
+                    }
+                }
+                return Convert.ToInt32(String.Join(string.Empty, possibilities.Select(p => p).Where(p => p != 0)));
             }
-            for (int row = 0; row < 9; row++)
+            catch (Exception ex)
             {
-                if (IsValidSingle(sudokuBoard[givenCol, row]))
-                {
-                    possibilities[sudokuBoard[givenCol, row] - 1] = 0;
-                }
+                throw new Exception("Error xxxx():" + ex.Message);
             }
-            return Convert.ToInt32(String.Join(string.Empty, possibilities.Select(p => p).Where(p => p != 0)));
+
             //// Alternative: 
             //// Get row possibilities and delete all possibilities that are not in common with col-possiblities.
             //int[] rowPossibilities  = sudokuBoard.i
@@ -84,35 +100,58 @@ namespace SudokuSolver.Strategies
 
         private int GetPossibilitiesInBlock(int[,] sudokuBoard, int givenRow, int givenCol)
         {
-            int[] possibilities = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            var sudokuMap = _sudokuMapper.Find(givenRow, givenCol);
-           
-            for (int row = sudokuMap.StartRow; row < sudokuMap.StartRow+3; row++)
+            try
             {
-                for (int col = sudokuMap.StartCol; col < sudokuMap.StartCol+3; col++)
+                int[] possibilities = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                var sudokuMap = _sudokuMapper.Find(givenRow, givenCol);
+
+                for (int row = sudokuMap.StartRow; row < sudokuMap.StartRow + 3; row++)
                 {
-                    if (IsValidSingle(sudokuBoard[row, col]))
+                    for (int col = sudokuMap.StartCol; col < sudokuMap.StartCol + 3; col++)
                     {
-                        possibilities[sudokuBoard[row, col] - 1] = 0;
+                        if (IsValidSingle(sudokuBoard[row, col]))
+                        {
+                            possibilities[sudokuBoard[row, col] - 1] = 0;
+                        }
+
                     }
-                            
                 }
+                return Convert.ToInt32(String.Join(string.Empty, possibilities.Select(p => p).Where(p => p != 0)));
+
             }
-            return Convert.ToInt32(String.Join(string.Empty, possibilities.Select(p => p).Where(p => p != 0)));
+            catch(Exception ex)
+            {
+                throw new Exception("Error GetPossibilitiesInBlock():" + ex.Message);
+            }
+
         }
 
         private int GetPossibilityIntersection(int possibilitiesInRowAndCol, int possibilitiesInBlock)
         {
-            var possibilitiesInRowAndColCharArray = possibilitiesInRowAndCol.ToString().ToCharArray();
-            var possibilitiesInBlockCharArray = possibilitiesInBlock.ToString().ToCharArray();
-            var possibilitiesSubset = possibilitiesInRowAndColCharArray.Intersect(possibilitiesInBlockCharArray);
-            return Convert.ToInt32(string.Join(string.Empty, possibilitiesSubset));
+
+            try
+            {
+                var possibilitiesInRowAndColCharArray = possibilitiesInRowAndCol.ToString().ToCharArray();
+                var possibilitiesInBlockCharArray = possibilitiesInBlock.ToString().ToCharArray();
+                var possibilitiesSubset = possibilitiesInRowAndColCharArray.Intersect(possibilitiesInBlockCharArray);
+                return Convert.ToInt32(String.Join(string.Empty, possibilitiesSubset));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error xxxx():" + ex.Message);
+            }
         }
 
         private bool IsValidSingle(int cellDigit)
         {
-            return cellDigit != 0 && cellDigit.ToString().Length == 1;
+            try
+            {
+                return cellDigit != 0 && cellDigit.ToString().Length == 1;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error xxxx():" + ex.Message);
+            }
         }
-
     }
 }

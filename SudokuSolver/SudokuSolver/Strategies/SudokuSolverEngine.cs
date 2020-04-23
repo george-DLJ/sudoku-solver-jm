@@ -22,10 +22,11 @@ namespace SudokuSolver.Strategies
         {
             List<ISudokuStrategy> strategies = new List<ISudokuStrategy>()
             {
-
+                new SimpleMarkUpStrategy(_sudokuMapper),
+                new NakedPairsStrategy(_sudokuMapper)
             };
             var currentState = _sudokuBoardStateManager.GenerateState(sudokuBoard);
-            var nextState = _sudokuBoardStateManager.GenerateState(sudokuBoard);
+            var nextState = _sudokuBoardStateManager.GenerateState(strategies.First().Solve(sudokuBoard));
 
             while(!_sudokuBoardStateManager.IsSolved(sudokuBoard) && currentState != nextState)
             {
